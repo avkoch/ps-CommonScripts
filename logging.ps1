@@ -59,14 +59,22 @@ function Write-Log {
             }
         }
 
-        $(Get-Date -Format G) + ',' `
+        $Timestamp = Get-Date -Format G
+        $Timestamp + ',' `
             + $Severity + ',' `
             + $Location + ',' `
             + $Message | Out-File -FilePath $LogFile -Append
+
+        $Str = "$Timestamp  [$Location] $Message"
+        switch ($Severity.ToLower()) {
+            "info" { Write-Host $Str -ForegroundColor Green }
+            "warning" { Write-Host $Str -ForegroundColor Yellow }
+            "error" { Write-Host $Str -ForegroundColor Red }
+            "critical" { Write-Host $Str -ForegroundColor White -BackgroundColor Red }
+        }
+
     }
     catch {
         Write-Warning "Unable to write to $LogFile"
     }
-
-    if ($Severity.ToLower() -eq "critical") { exit }
 }
