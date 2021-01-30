@@ -41,3 +41,7 @@ Severity can be:
 * Warning
 * Error
 * Critical
+
+## Get-Uptime.ps1
+
+Get uptime of the remote computer as **TimeSpan** or **String**
